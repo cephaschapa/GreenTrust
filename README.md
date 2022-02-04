@@ -6,7 +6,7 @@ GreenTrust is online digital certification platform for all tree enthusiats
 - clone the repo into a your local directory
 - cd into client run npm install or yarn install
 - cd into server run npm install or yarn install
-- PS. the .env file contains all keys but since its a private project its fine I uploaded it
+- PS. the .env file contains all keys but since it will be a private project its fine I uploaded it as well
 
 ## Web UI Features
 - You can send invitaions to annyone you want to connect and issue a digital certificate
