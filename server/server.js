@@ -141,6 +141,31 @@ app.post('/createCredential', async (req, res) => {
     }
 })
 
+// VERIFY
+
+app.post('/verifyCredentials', async (req, res) => {
+    const connectionId = req.body.connectionId;
+    
+    const credentials = await axios.request({
+        method: 'POST',
+        url: `https://api.trinsic.id/credentials/v1/verifications/policy/connections/${connectionId}`,
+        data: '{"attributes":[{"attributeNames":["Full Names","Email","Plant Name","Species","Latitude","Longitude","Origin","Date"],"policyName":"treeCertVerification"}],"name":"treeCertVerification","version":"1.0"}',
+        headers: {
+            Accept: 'text/plain', 
+            'Content-Type': 'application/*+json',
+            Accept: 'application/json',
+            Authorization: API_KEY
+        }
+    })
+    
+    console.log(credentials.data)
+
+    res.status(200).send({
+        success:true,
+        data: credentials.data
+    })
+});
+
 // SERVER
 
 app.listen(PORT, ()=> {

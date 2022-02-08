@@ -19,6 +19,7 @@ export default function Home({data}) {
   const [origin, setOrigin] = useState('');
   const [date, setDate] = useState('');
   const [connections, setConnections] = useState('');
+  const [connectionId, setConnectionId] = useState('');
 
   const handleInvitation = async (e) => {
     e.preventDefault();
@@ -75,6 +76,26 @@ export default function Home({data}) {
     
   }
 
+  const handleCredentialVerfication = async (e) => {
+    e.preventDefault();
+    console.log(connections)
+
+    const res = await axios.post('http://localhost:5000/createCredential',{
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      data:{
+        connectionId: connectionId
+      }
+    })
+    
+    console.log(res)
+}
+  useEffect(()=> {
+    // handleCredentialVerfication();
+  },[])
+
   return (
     <div>
       <Head>
@@ -94,7 +115,7 @@ export default function Home({data}) {
                     <Link href="#certify">
                       <li className='p-3 transition duration-150 cursor-pointer rounded-full hover:bg-green-500'>Create Certificate</li>
                     </Link>
-                    <Link href="#certify">
+                    <Link href="https://github.com/cephaschapa/GreenTrust">
                       <li className='flex items-center space-x-1 p-3 transition duration-150 cursor-pointer rounded-full hover:bg-green-500'>
                         <VscGithub className='h-5 w-5 '/>
                         <span>Repo</span>
@@ -188,6 +209,41 @@ export default function Home({data}) {
                 </div>
                 
                 <button onClick={handleCredential} className='bg-green-600 w-full p-3 rounded-full font-bold text-white'>
+                  {
+                    btnText ? 'Processing...': 'SUBMIT'
+                  }
+                </button>
+              </form>
+            </div>
+            <div className='bg-white w-full h-full rounded-2xl svg-background'>
+              
+            </div>
+        </div>
+      </section>
+
+      <section id='certify' className='h-screen flex lg:px-52 justify-center w-full px-24 md:px-12'>
+        <div className=' border grid grid-cols-2 mt-20 p-3 gap-2 shadow-md w-full h-[400px] rounded-2xl'>
+            <div className='flex flex-col border-r justify-center items-center w-full h-full px-5'>
+              <form className='w-full space-y-3 '>
+                <h3 className='text-center  p-2 text-3xl font-bold text-slate-600'>VERIFY CREDENTIAL</h3>
+                <p className='text-center'>Send a verification request to a connected partifipant.</p>
+                <div className='p-3 w-full flex space-x-3 items-center bg-white border border-slate-500  rounded-full'>
+                  <VscAdd className='h-5 w-5'/>
+                  <select value={connectionId} onChange={(e)=>setConnectionId(e.target.value)} type="text" placeholder="Connection" className='w-full outline-none' required>
+                    <option selected>Select Connection</option>
+                    {
+                      data.map((conn, i)=>{
+                        return(
+                          <option key={i} value={conn.connectionId}>
+                            {conn.name}
+                          </option>
+                        )
+                      })
+                    }
+                  </select>
+                </div>
+                                
+                <button onClick={handleCredentialVerfication} className='bg-green-600 w-full p-3 rounded-full font-bold text-white'>
                   {
                     btnText ? 'Processing...': 'SUBMIT'
                   }
